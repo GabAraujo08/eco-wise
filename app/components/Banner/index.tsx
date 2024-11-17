@@ -6,7 +6,6 @@ const Banner = () => {
     return (
         <div className="banner">
             <Image src={ImgBanner} className='imgBanner' alt="Banner" />
-
         </div>
     );
 };
