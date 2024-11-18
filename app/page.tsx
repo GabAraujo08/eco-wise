@@ -6,6 +6,7 @@ import Banner from '../app/components/Banner';
 import Login from "./components/Login";
 import EcoWise from "./components/Banner1";
 import Banner2 from "./components/Banner2";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -15,6 +16,8 @@ export default function Home() {
       <Banner/>
       <EcoWise />
       <Banner2  />
+      <Footer />
+
     </main>
   );
 }
