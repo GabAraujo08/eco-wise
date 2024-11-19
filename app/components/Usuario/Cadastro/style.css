@@ -1,0 +1,50 @@
+body{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../../../../public/assets/img/bg-form-cadastro.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+
+.formCadastro {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+.formGroup label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: black;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.submitButton {
+    padding: 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submitButton:hover {
+    background-color: #0056b3;
+}
