@@ -1,9 +1,9 @@
-import FormCadastro from '../../../components/Usuario/Cadastro';
+import FormCadastro from '../../../components/Empresa/Cadastro';
 import './style.css';
 
 export default function Home() {
     return (
-        <main className='mainCadastroUsuario'>
+        <main className='mainCadastroEmpresa'>
             
            <FormCadastro />
         </main>

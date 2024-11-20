@@ -1,7 +1,7 @@
-"use client"
-
-import { useState } from 'react';
+'use client';
 import './style.css';
+// Importando o React
+import React, { useState } from 'react';
 
 export default function FormCadastro() {
     const [formData, setFormData] = useState({
@@ -22,44 +22,47 @@ export default function FormCadastro() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className='formCadastro'>
-            <div className='formGroup'>
-                <label htmlFor='nome'>Nome:</label>
-                <input
-                    type='text'
-                    id='nome'
-                    name='nome'
-                    value={formData.nome}
-                    onChange={handleChange}
-                    placeholder='Digite seu nome'
-                    required
-                />
-            </div>
-            <div className='formGroup'>
-                <label htmlFor='email'>E-mail:</label>
-                <input
-                    type='email'
-                    id='email'
-                    name='email'
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder='Digite seu e-mail'
-                    required
-                />
-            </div>
-            <div className='formGroup'>
-                <label htmlFor='senha'>Senha:</label>
-                <input
-                    type='password'
-                    id='senha'
-                    name='senha'
-                    value={formData.senha}
-                    onChange={handleChange}
-                    placeholder='Digite sua senha'
-                    required
-                />
-            </div>
-            <button type='submit' className='submitButton'>Cadastrar</button>
-        </form>
+
+            <form onSubmit={handleSubmit} className='formCadastro'>
+                <h1 >Engaje seus colaboradores em uma jornada gamificada para o consumo sustentável de energia</h1>
+                <div className='formGroup'>
+                    <label htmlFor='nome'>Nome:</label>
+                    <input
+                        type='text'
+                        id='nome'
+                        name='nome'
+                        value={formData.nome}
+                        onChange={handleChange}
+                        placeholder='Digite o nome do colaborador'
+                        required
+                    />
+                </div>
+                <div className='formGroup'>
+                    <label htmlFor='email'>E-mail:</label>
+                    <input
+                        type='email'
+                        id='email'
+                        name='email'
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder='Digite o e-mail do seu colaborador'
+                        required
+                    />
+                </div>
+                <div className='formGroup'>
+                    <label htmlFor='senha'>Senha:</label>
+                    <input
+                        type='password'
+                        id='senha'
+                        name='senha'
+                        value={formData.senha}
+                        onChange={handleChange}
+                        placeholder='Qual será a senha do colaborador?'
+                        required
+                    />
+                </div>
+                <button type='submit' className='submitButton'>Cadastrar</button>
+            </form>
+       
     );
 }
