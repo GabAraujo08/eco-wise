@@ -1,4 +1,10 @@
-
+@font-face {
+  font-family: 'RaymanEco';
+  src: url('fonts/RymanEco/RymanEco/RymanEco-Regular.otf') format('truetype'),
+       url('fonts/RymanEco/RymanEco/RymanEco-Regular.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
 
 :root {

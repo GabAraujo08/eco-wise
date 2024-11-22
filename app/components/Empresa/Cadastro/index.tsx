@@ -1,112 +1,111 @@
-"use client";
-import "./style.css";
-import React, { useState } from "react";
+'use client';
 
+import './style.css';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-
-export default function FormCadastroEmpresa() {
+const EmpresaForm = () => {
   const [formData, setFormData] = useState({
-    nomeEmpresa: "",
-    cnpj: "",
-    senha: "",
-  });   
-  
+    nome: '',
+    cnpj: '',
+    senha: '',
+  });
 
-  const [mensagem, setMensagem] = useState("");
+  const [responseMessage, setResponseMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMensagem(""); // Limpa mensagem ao enviar o formulário
-
-    // Monta o body no formato esperado pela API
-    const body = {
-        nome: formData.nomeEmpresa,
-        cnpj: formData.cnpj,  // Deixe como string
-        senha: formData.senha,
-    };
-    
+    setResponseMessage('');
+    setErrorMessage('');
 
     try {
-      const response = await fetch(
-        "http://localhost:8080/eco_wise_war/api/empresa/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-          mode : 'no-cors'
-        }
-      );
+      const response = await axios.post('/api/empresa/', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-      if (response.ok) {
-        setMensagem("Empresa cadastrada com sucesso!");
-        setFormData({
-          nomeEmpresa: "",
-          cnpj: "",
-          senha: "",
-        });
-      } else {
-        const errorData = await response.json();
-        setMensagem(
-          `Erro ao cadastrar: ${errorData.message || "Erro desconhecido"}`
-        );
-      }
-    } catch {
-      setMensagem(
-        "Erro ao conectar com o servidor. Tente novamente mais tarde."
+      setResponseMessage(`Empresa criada com sucesso! ID: ${response.data.id}`);
+    } catch (error: any) {
+      setErrorMessage(
+        error.response?.data?.mensagem || 'Erro ao criar empresa. Por favor, tente novamente.'
       );
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="formCadastro">
-      <h1>Cadastre uma empresa e comece a jornada sustentável</h1>
-      <div className="formGroup">
-        <label htmlFor="nomeEmpresa">Nome da Empresa:</label>
-        <input
-          type="text"
-          id="nomeEmpresa"
-          name="nomeEmpresa"
-          value={formData.nomeEmpresa}
-          onChange={handleChange}
-          placeholder="Digite o nome da empresa"
-          required
-        />
-      </div>
-      <div className="formGroup">
-        <label htmlFor="cnpj">CNPJ:</label>
-        <input
-          type="text"
-          id="cnpj"
-          name="cnpj"
-          value={formData.cnpj}
-          onChange={handleChange}
-          placeholder="Digite o CNPJ da empresa"
-          required
-        />
-      </div>
-      <div className="formGroup">
-        <label htmlFor="senha">Senha:</label>
-        <input
-          type="password"
-          id="senha"
-          name="senha"
-          value={formData.senha}
-          onChange={handleChange}
-          placeholder="Defina uma senha para a empresa"
-          required
-        />
-      </div>
-      <button type="submit" className="submitButton">
-        Cadastrar Empresa
-      </button>
-      {mensagem && <p className="mensagem">{mensagem}</p>}
-    </form>
+    <div className="container mt-5">
+      <h2>Cadastro de Empresa</h2>
+      <form onSubmit={handleSubmit} className="mt-4">
+        <div className="mb-3">
+          <label htmlFor="nome" className="form-label">
+            Nome da Empresa
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="nome"
+            name="nome"
+            value={formData.nome}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="cnpj" className="form-label">
+            CNPJ
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="cnpj"
+            name="cnpj"
+            value={formData.cnpj}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="senha" className="form-label">
+            Senha
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="senha"
+            name="senha"
+            value={formData.senha}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary">
+          Cadastrar Empresa
+        </button>
+      </form>
+
+      {responseMessage && (
+        <div className="alert alert-success mt-3" role="alert">
+          {responseMessage}
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="alert alert-danger mt-3" role="alert">
+          {errorMessage}
+        </div>
+      )}
+    </div>
   );
-}
+};
+
+export default EmpresaForm;

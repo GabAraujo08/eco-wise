@@ -7,11 +7,12 @@
 }
 /*Estilização dos links da navbar*/
 .nav-link{
-    font-family: "Oswald", sans-serif !important;
+    font-family: "RaymanEco", sans-serif !important;
   font-optical-sizing: auto;
   font-style: normal;
   color: white;
   font-weight: 600;
+  font-size: 18px;
 }
 /*Definindo o tamanho da div interna da navbar*/
 .navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl{

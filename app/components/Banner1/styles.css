@@ -14,16 +14,29 @@ body {
   
   .content {
     max-width: 500px;
+    background-color: #000000bf;
+    border-radius: 10px;
+    padding: 10px;
   }
   
   .content h1 {
     font-size: 3em;
     margin-bottom: 20px;
+    font-family: 'RaymanEco', sans-serif;
+    color: #fff;
   }
   
   .content p {
     font-size: 1.2em;
     line-height: 1.5;
+    
+    color: #fff;
+  }
+
+  .Ecowise{
+    background-image: url('../../../public/assets/img/img-banner-1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
   }
   
 

@@ -1,68 +1,164 @@
 'use client';
+
 import './style.css';
-// Importando o React
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-export default function FormCadastro() {
-    const [formData, setFormData] = useState({
-        nome: '',
-        email: '',
-        senha: '',
-    });
+const UsuarioForm = () => {
+  const [formData, setFormData] = useState({
+    nome: '',
+    email: '',
+    senha: '',
+    pontos: 0,
+    empresaId: '',
+  });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+  const [empresas, setEmpresas] = useState([]);
+  const [responseMessage, setResponseMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // Carregar lista de empresas ao montar o componente
+  useEffect(() => {
+    const fetchEmpresas = async () => {
+      try {
+        const response = await axios.get('/api/empresa/all');
+        setEmpresas(response.data); // Atualiza a lista de empresas com os dados retornados
+      } catch (error) {
+        console.error('Erro ao buscar empresas:', error);
+        setErrorMessage('Erro ao carregar a lista de empresas. Tente novamente mais tarde.');
+      }
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log('Form data submitted:', formData);
-        // Aqui você pode enviar os dados para a API
-    };
+    fetchEmpresas();
+  }, []);
 
-    return (
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-            <form onSubmit={handleSubmit} className='formCadastro'>
-                <h1 >Engaje seus colaboradores em uma jornada gamificada para o consumo sustentável de energia</h1>
-                <div className='formGroup'>
-                    <label htmlFor='nome'>Nome:</label>
-                    <input
-                        type='text'
-                        id='nome'
-                        name='nome'
-                        value={formData.nome}
-                        onChange={handleChange}
-                        placeholder='Digite o nome do colaborador'
-                        required
-                    />
-                </div>
-                <div className='formGroup'>
-                    <label htmlFor='email'>E-mail:</label>
-                    <input
-                        type='email'
-                        id='email'
-                        name='email'
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder='Digite o e-mail do seu colaborador'
-                        required
-                    />
-                </div>
-                <div className='formGroup'>
-                    <label htmlFor='senha'>Senha:</label>
-                    <input
-                        type='password'
-                        id='senha'
-                        name='senha'
-                        value={formData.senha}
-                        onChange={handleChange}
-                        placeholder='Qual será a senha do colaborador?'
-                        required
-                    />
-                </div>
-                <button type='submit' className='submitButton'>Cadastrar</button>
-            </form>
-       
-    );
-}
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setResponseMessage('');
+    setErrorMessage('');
+
+    try {
+      const response = await axios.post('/api/usuario/', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      setResponseMessage(`Usuário criado com sucesso! ID: ${response.data.id}`);
+    } catch (error: any) {
+      setErrorMessage(
+        error.response?.data?.mensagem || 'Erro ao criar usuário. Por favor, tente novamente.'
+      );
+    }
+  };
+
+  return (
+    <div className="container mt-5">
+      <h2>Cadastro de Usuário</h2>
+      <form onSubmit={handleSubmit} className="mt-4">
+        <div className="mb-3">
+          <label htmlFor="nome" className="form-label">
+            Nome do Usuário
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="nome"
+            name="nome"
+            value={formData.nome}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="email" className="form-label">
+            Email
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="senha" className="form-label">
+            Senha
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="senha"
+            name="senha"
+            value={formData.senha}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+
+        {/* <div className="mb-3">
+          <label htmlFor="pontos" className="form-label">
+            Pontos (opcional)
+          </label>
+          <input
+            type="number"
+            className="form-control"
+            id="pontos"
+            name="pontos"
+            value={formData.pontos}
+            onChange={handleInputChange}
+          />
+        </div> */}
+
+        <div className="mb-3">
+          <label htmlFor="empresaId" className="form-label">
+            Empresa
+          </label>
+          <select
+            className="form-select"
+            id="empresaId"
+            name="empresaId"
+            value={formData.empresaId}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Selecione uma empresa</option>
+            {empresas.map((empresa: { id: number; nome: string }) => (
+              <option key={empresa.id} value={empresa.id}>
+                {empresa.nome}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <button type="submit" className="btn btn-primary">
+          Cadastrar Usuário
+        </button>
+      </form>
+
+      {responseMessage && (
+        <div className="alert alert-success mt-3" role="alert">
+          {responseMessage}
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="alert alert-danger mt-3" role="alert">
+          {errorMessage}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default UsuarioForm;
