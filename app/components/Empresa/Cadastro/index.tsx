@@ -32,10 +32,14 @@ const EmpresaForm = () => {
       });
 
       setResponseMessage(`Empresa criada com sucesso! ID: ${response.data.id}`);
-    } catch (error: any) {
-      setErrorMessage(
-        error.response?.data?.mensagem || 'Erro ao criar empresa. Por favor, tente novamente.'
-      );
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setErrorMessage(
+          error.response?.data?.mensagem || 'Erro ao criar empresa. Por favor, tente novamente.'
+        );
+      } else {
+        setErrorMessage('Erro ao criar empresa. Por favor, tente novamente.');
+      }
     }
   };
 

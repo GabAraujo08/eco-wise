@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import './style.css';
 import logoImg from '../../../public/assets/img/LOGO.png';
+import Link from 'next/link';
 
 const Funcionalidades = () => {
     const [showModal, setShowModal] = useState(false);
@@ -17,9 +18,9 @@ const Funcionalidades = () => {
             {/* Footer */}
             <footer className="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
                 <div className="col mb-3">
-                    <a href="/" className="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
+                    <Link href="/" className="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
                         <Image src={logoImg} alt="Logo" width={80} />
-                    </a>
+                    </Link>
                     <p className="text-body-secondary">&copy; 2024</p>
                 </div>
 
