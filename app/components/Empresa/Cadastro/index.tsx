@@ -10,27 +10,27 @@ const EmpresaForm = () => {
     cnpj: '',
     senha: '',
   });
-
+  
   const [responseMessage, setResponseMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setResponseMessage('');
     setErrorMessage('');
-
+  
     try {
       const response = await axios.post('/api/empresa/', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
+  
       setResponseMessage(`Empresa criada com sucesso! ID: ${response.data.id}`);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -42,7 +42,7 @@ const EmpresaForm = () => {
       }
     }
   };
-
+  
   return (
     <div className="container mt-5">
       <h2>Cadastro de Empresa</h2>
